@@ -1,0 +1,9 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Context.puml
+title System Context Diagram for  Hotel
+Person(guest, "User", "A user looking for a place to stay at ")
+System(system, "Hotel", "Allows guests to stay at a nice and safe place while enjoying thier vacation at the same time.")
+Rel(guest, system, "can book or update rooms \n using ")
+SHOW_LEGEND()
+@enduml
+

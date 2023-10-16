@@ -1,0 +1,6 @@
+include 'api-gateway'
+include 'guests-service'
+include 'reservation-service'
+include 'rooms-service'
+include 'staff-service'
+

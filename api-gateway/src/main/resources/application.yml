@@ -1,0 +1,46 @@
+# Default Spring Profile
+server:
+  error:
+    include-message: always
+logging:
+  level:
+    root: INFO
+    com.com.hotelmanagement: DEBUG
+
+
+app:
+  guests-service:
+    host: localhost
+    port: 7001
+  rooms-service:
+    host: localhost
+    port: 7002
+  staff-service:
+    host: staff-service
+    port: 7003
+  reservation-service:
+    host: localhost
+    port: 7004
+
+
+# mandatory
+---
+
+
+# for docker
+spring:
+  port: 8080
+
+app:
+  guests-service:
+    host: guests-service
+    port: 8080
+  rooms-service:
+    host: rooms-service
+    port: 8080
+  staff-service:
+    host: staff-service
+    port: 8080
+  reservation-service:
+    host: reservation-service
+    port: 8080

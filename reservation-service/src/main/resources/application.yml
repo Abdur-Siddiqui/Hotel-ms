@@ -1,0 +1,60 @@
+# Default Spring Profile
+server:
+  error:
+    include-message: always
+
+logging:
+  level:
+    root: INFO
+    com.com.hotelmanagement: DEBUG
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+
+spring:
+  data:
+    mongodb:
+      username: user
+      password: pwd
+      host: localhost
+      port: 0
+      database: reservation-db
+      authentication-database: admin
+      auto-index-creation: true
+
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 5.0.5
+
+app:
+  guests-service:
+    host: localhost
+    port: 7001
+  rooms-service:
+    host: localhost
+    port: 7002
+  staff-service:
+    host: localhost
+    port: 7003
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+spring.data.mongodb.host: mongodb
+spring.data.mongodb.port: 27017
+
+app:
+  guests-service:
+    host: guests-service
+    port: 8080
+  rooms-service:
+    host: rooms-service
+    port: 8080
+  staff-service:
+    host: staff-service
+    port: 8080
+
+server.port: 8080

@@ -1,0 +1,53 @@
+@startuml
+' convert it with additional command line argument -DRELATIVE_INCLUDE="./.." to use locally
+!if %variable_exists("RELATIVE_INCLUDE")
+  !include %get_variable_value("RELATIVE_INCLUDE")/C4_Container.puml
+!else
+  !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!endif
+
+SHOW_PERSON_OUTLINE()
+
+
+title Container diagram for Hotel management system
+
+Person(guest, User, "A user can book or update rooms ")
+
+System_Boundary(c1, "") {
+    Container(web_app, "Web Application", "Java, Spring ", "Delivers the content of the single application")
+    Container(spa1, "Single-Page App",  "JavaScript React" , "Provides functionality to the app via  their web browser")
+   Container(backend_api, "API Gateway",  "Java Spring Boot" , " manages hotel microservices via http request")
+     Container(microservice, "Guest Service", "Java" ,"Its a independent service that manages its own api calls and contains its own database")
+     ContainerDb(microserviceDb1, "Guest DataBase", "MySql" , "It stores, and retreives values only from the guest service" )
+  Container(microservice2, "Staff Service",  "Java " , "Its a independent service that manages its own api calls and contains its own database")
+     ContainerDb(microserviceDb2, "Staff DataBase", "MySql" , "It stores, and retreives values only from the staff service" )
+Container(microservice3, "Room Service",  "Java", "Its a independent service that manages its own api calls and contains its own database")
+     ContainerDb(microserviceDb3, "Room DataBase", "MySql" , "It stores, and retreives values only from the room service" )
+Container(microservice4, "Reservation Service",  "Java", "Its a independent service that manages its own api calls and contains its own database")
+     Container(microserviceDb4, "Reservation DataBase", "SQL/MongoDb","It stores, and retreives values only for the guest service" )
+
+}
+
+
+Rel(guest, web_app, "Uses", "HTTPS")
+Rel(guest, spa1, "Uses", "HTTPS")
+
+Rel_Neighbor(web_app, spa1, "Delivers")
+Rel(  microservice, microserviceDb1,  " Guest service uses ", "JDBC/SQL/TCP")
+Rel(spa1, backend_api, "Uses", "/REST/JSON/HTTPS", $tags="async")
+Rel(backend_api, microservice, takes requests from , "HTTPS/REST/JSON")
+Rel( backend_api, microservice2,  takes requests from, "HTTPS/REST/JSON" )
+Rel(microservice2, microserviceDb2, "Reads from and writes to", "sync, JDBC" )
+Rel( microservice4, microserviceDb4, "Reads from and writes to", "sync, JDBC" )
+Rel( microservice4,   microservice, takes requests from , "HTTPS/REST/JSON" ,)
+Rel(backend_api, microservice4, takes requests from , "HTTPS/REST/JSON")
+Rel(microservice4, microservice3 , "uses")
+Rel(microservice3, microserviceDb3 , "Reads from and writes to, sync, JDBC" , )
+Rel(backend_api, microservice3 , takes requests from , "HTTPS/REST/JSON" )
+Rel(microservice4, microservice2 , )
+
+
+
+SHOW_LEGEND()
+footer drawn with PlantUML v. %version() and C4-PlantUML v. C4Version()
+@enduml
